@@ -5,6 +5,20 @@ import { createPortal } from 'react-dom';
 const modalRoot = document.querySelector('#modal-root');
 
 class Modal extends Component {
+  componentDidMount() {
+    window.addEventListener('keydown', this.keyClose);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.keyClose);
+  }
+
+  keyClose = e => {
+    if (e.key === 'Escape') {
+      this.props.onClose();
+    }
+  };
+
   handleClose = e => {
     e.stopPropagation();
 

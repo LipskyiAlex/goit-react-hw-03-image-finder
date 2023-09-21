@@ -1,12 +1,19 @@
+import css from "./button.modules.css"
+import { Component } from "react";
+
+export default  class Button extends Component {
 
 
-const Button = () => {
+     handleClick = () => {
 
+        this.props.loadMorePages();
+     }
+     render() {
+        return (
 
-    return (
+            <button type="button" className="Button" onClick={this.handleClick}>Load More</button>
+        )
+    }
 
-        <button type="button">Load More</button>
-    )
-}
+     }
 
-export default Button;

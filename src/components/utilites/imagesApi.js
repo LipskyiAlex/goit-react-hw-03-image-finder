@@ -1,5 +1,7 @@
 export default async function imageAPI(query) {
     
+  
+
   const KEY = '38590666-b4e4facc0390580085af70521';
 
   const response = await fetch(

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import SearchBar from 'components/searchbar/searchbar';
 import ImageGallery from './imageGallery/imageGallery';
+import Button from './button/button';
 
 export default class App extends Component {
   
@@ -26,6 +27,7 @@ export default class App extends Component {
       <div>
         <SearchBar handleQuery={this.handleQuery} />
         <ImageGallery searchQuery={searchQuery}/>
+        <Button/>
       </div>
     );
   }

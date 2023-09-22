@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-
 import SearchBar from 'components/searchbar/searchbar';
 import ImageGallery from './imageGallery/imageGallery';
-import ImageGalleryItem from './imageGalleryItem/imageGalleryItem';
-import Button from './button/button';
-import Loader from './loader/loader';
 
 
 export default class App extends Component {

@@ -6,14 +6,15 @@ import Button from '../button/button';
 
 export default class ImageGallery extends Component {
   state = {
-    images: [],
+    hits: [],
     pageCounter: 1,
+    totalPages: 0,
   };
 
   componentDidUpdate(prevProps) {
     if (this.props.searchQuery !== prevProps.searchQuery) {
       this.setState(
-        { pageCounter: 1 },
+        { pageCounter: 1, totalPages: 0, hits: [] },
 
         () => {
           this.fetchData();
@@ -23,33 +24,40 @@ export default class ImageGallery extends Component {
   }
 
   loadMorePages = () => {
-    this.setState(
-      prevState => {
-        return {
-          pageCounter: prevState.pageCounter + 1,
-        };
-      },
-      () => {
-        this.fetchData();
-      }
-    );
+    const { pageCounter, totalPages } = this.state;
+
+    if (totalPages > pageCounter) {
+      this.setState(
+        prevState => {
+          return {
+            pageCounter: prevState.pageCounter + 1,
+          };
+        },
+        () => {
+          this.fetchData();   //! Добавить уведомление когда больше нет новых страниц
+        }
+      );
+    }
   };
 
   fetchData = () => {
     imageAPI(this.props.searchQuery, this.state.pageCounter)
       .then(data => {
-        this.setState({ images: data.hits });
+        this.setState(prevState => ({
+          hits: [...prevState.hits, ...data.hits],
+          totalPages: Math.ceil(data.totalHits / 12),
+        }));
       })
       .catch(error => console.log(error.message));
   };
 
   render() {
-    const { images } = this.state;
+    const { hits } = this.state;
 
-    return (
+    return hits.length > 0 ? (
       <div>
         <ul className="ImageGallery">
-          {images.map(({ id, webformatURL, largeImageURL, tags }) => (
+          {hits.map(({ id, webformatURL, largeImageURL, tags }) => (
             <ImageGalleryItem
               key={id}
               webformatURL={webformatURL}
@@ -58,10 +66,8 @@ export default class ImageGallery extends Component {
             />
           ))}
         </ul>
-        {images.length > 0 ? (
-          <Button loadMorePages={this.loadMorePages} />
-        ) : null}
+        <Button loadMorePages={this.loadMorePages} />
       </div>
-    );
+    ) : null;
   }
 }

@@ -1,50 +1,49 @@
 import { Component } from 'react';
-import css from './imageGallery.modules.css';
+import css from './imageGallery.module.css';
 import imageAPI from '../utilites/imagesApi';
 import ImageGalleryItem from '../imageGalleryItem/imageGalleryItem';
 import Button from '../button/button';
-import { CirclesWithBar } from  'react-loader-spinner'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Loader from '../loader/loader';
 
 export default class ImageGallery extends Component {
   state = {
     hits: [],
     pageCounter: 1,
     totalPages: 0,
-    status:"idle"
+    status: 'idle',
   };
 
   componentDidUpdate(prevProps) {
-
     if (this.props.searchQuery !== prevProps.searchQuery) {
-
       this.setState(
-        { pageCounter: 1, totalPages: 0, hits: [],status:"pending"},
+        { pageCounter: 1, totalPages: 0, hits: [], status: 'pending' },
 
         () => {
           this.fetchData();
         }
       );
-
-     
     }
   }
 
   loadMorePages = () => {
     const { pageCounter, totalPages } = this.state;
 
-  
+    if (totalPages === pageCounter) {
+      toast("That's all we've found");
+    }
+
     if (totalPages > pageCounter) {
       this.setState(
         prevState => {
           return {
             pageCounter: prevState.pageCounter + 1,
+            status: "pending",
           };
         },
         () => {
-          this.fetchData();   //! Добавить уведомление когда больше нет новых страниц
+          this.fetchData();
         }
       );
     }
@@ -56,23 +55,23 @@ export default class ImageGallery extends Component {
         this.setState(prevState => ({
           hits: [...prevState.hits, ...data.hits],
           totalPages: Math.ceil(data.totalHits / 12),
-          status: "resolved"
+          status: 'resolved',
         }));
       })
       .catch(error => {
-
-        this.setState({status:'rejected'})
-        toast(error.message); 
-
-      } );
+        this.setState({ status: 'rejected' });
+        toast(error.message);
+      });
   };
 
   render() {
-    const { hits,status} = this.state;
+    const { hits, status } = this.state;
+
+
 
     return hits.length > 0 ? (
       <div>
-        <ul className="ImageGallery">
+        <ul className={css.imageGallery}>
           {hits.map(({ id, webformatURL, largeImageURL, tags }) => (
             <ImageGalleryItem
               key={id}
@@ -83,7 +82,20 @@ export default class ImageGallery extends Component {
           ))}
         </ul>
         <Button loadMorePages={this.loadMorePages} />
-        {status==="pending"&& <CirclesWithBar />}
+        {status === 'pending' && <Loader />}
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          limit={1}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     ) : null;
   }

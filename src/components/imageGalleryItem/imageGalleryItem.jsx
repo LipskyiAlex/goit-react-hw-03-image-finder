@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import Modal from 'components/modal/modal';
-import css from './imageGalleryItem.modules.css';
+import css from './imageGalleryItem.module.css';
 
 class ImageGalleryItem extends Component {
 
@@ -20,9 +20,9 @@ class ImageGalleryItem extends Component {
     const { webformatURL, largeImageURL, tags } = this.props;
 
     return (
-      <li className="ImageGalleryItem" onClick={this.toggleModal}>
+      <li className={css.imageGalleryItem} onClick={this.toggleModal}>
         <img
-          className="ImageGalleryItem-image"
+          className={css.imageGalleryItem_image}
           src={webformatURL}
           alt={tags}
           width="200"

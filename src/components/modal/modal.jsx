@@ -1,4 +1,4 @@
-import css from './modal.modules.css';
+import css from './modal.module.css';
 import { Component } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -31,8 +31,8 @@ class Modal extends Component {
     const { largeImageURL, tags } = this.props;
 
     return createPortal(
-      <div className="overlay" onClick={e => this.handleClose(e)}>
-        <div className="modal">
+      <div className={css.overlay} onClick={e => this.handleClose(e)}>
+        <div className={css.modal}>
           <img src={largeImageURL} alt={tags} />
         </div>
       </div>,

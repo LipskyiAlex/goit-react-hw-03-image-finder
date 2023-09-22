@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import SearchBar from 'components/searchbar/searchbar';
 import ImageGallery from './imageGallery/imageGallery';
+import ImageGalleryItem from './imageGalleryItem/imageGalleryItem';
+import Button from './button/button';
+import Loader from './loader/loader';
 
 
 export default class App extends Component {
@@ -9,6 +12,7 @@ export default class App extends Component {
   
   state = {
     searchQuery: '',
+    totalPages:0,
   };
 
   handleQuery = query => {
@@ -20,7 +24,7 @@ export default class App extends Component {
     const {searchQuery} = this.state;
 
     return (
-      <div>
+      <div className="app">
         <SearchBar handleQuery={this.handleQuery} />
         <ImageGallery searchQuery={searchQuery}/>
        

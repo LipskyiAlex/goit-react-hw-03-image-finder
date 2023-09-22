@@ -1,4 +1,4 @@
-import css from "./button.modules.css"
+import css from "./button.module.css"
 import { Component } from "react";
 
 export default  class Button extends Component {
@@ -11,7 +11,7 @@ export default  class Button extends Component {
      render() {
         return (
 
-            <button type="button" className="Button" onClick={this.handleClick}>Load More</button>
+            <button type="button" className={css.button} onClick={this.handleClick}>Load More</button>
         )
     }
 

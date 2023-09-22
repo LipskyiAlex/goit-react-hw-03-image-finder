@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import css from './searchBar.modules.css';
 
+
 export default class SearchBar extends Component {
   state = {
     searchQuery: '',
@@ -38,6 +39,7 @@ export default class SearchBar extends Component {
             onChange={e => this.handleInput(e)}
           />
         </form>
+  
       </header>
     );
   }

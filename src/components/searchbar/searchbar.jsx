@@ -3,6 +3,7 @@ import css from './searchBar.module.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { throttle } from 'lodash';
+import {FcGoogle} from 'react-icons/fc';
 
 export default class SearchBar extends Component {
   state = {
@@ -34,7 +35,7 @@ export default class SearchBar extends Component {
       <header className={css.header}>
         <form className={css.searchForm} onSubmit={e => this.handleSubmit(e)}>
           <button type="submit" className={css.searchForm_button}>
-            <span className={css.searchForm_button_label}>Search</span>
+          <FcGoogle size="35"/>
           </button>
 
           <input

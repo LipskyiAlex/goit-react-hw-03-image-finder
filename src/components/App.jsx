@@ -17,7 +17,7 @@ export default class App extends Component {
 
   render() {
 
-    const {searchQuery,photos} = this.state;
+    const {searchQuery} = this.state;
 
     return (
       <div>

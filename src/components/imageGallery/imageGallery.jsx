@@ -1,11 +1,11 @@
 import { Component } from 'react';
-import css from './imageGallery.modules.css';
+import css from './imageGallery.module.css';
 import imageAPI from '../utilites/imagesApi';
 import ImageGalleryItem from '../imageGalleryItem/imageGalleryItem';
 import Button from '../button/button';
-import { CirclesWithBar } from  'react-loader-spinner'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from '../loader/loader';
 
 
 export default class ImageGallery extends Component {
@@ -34,7 +34,11 @@ export default class ImageGallery extends Component {
 
   loadMorePages = () => {
     const { pageCounter, totalPages } = this.state;
+     
+      if(totalPages===pageCounter) {
 
+        toast("That's all we've found");
+      }
   
     if (totalPages > pageCounter) {
       this.setState(
@@ -72,7 +76,7 @@ export default class ImageGallery extends Component {
 
     return hits.length > 0 ? (
       <div>
-        <ul className="ImageGallery">
+        <ul className={css.imageGallery}>
           {hits.map(({ id, webformatURL, largeImageURL, tags }) => (
             <ImageGalleryItem
               key={id}
@@ -83,7 +87,7 @@ export default class ImageGallery extends Component {
           ))}
         </ul>
         <Button loadMorePages={this.loadMorePages} />
-        {status==="pending"&& <CirclesWithBar />}
+        {status==="pending"&& <Loader />}
       </div>
     ) : null;
   }

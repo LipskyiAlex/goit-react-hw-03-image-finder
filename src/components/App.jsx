@@ -20,7 +20,7 @@ export default class App extends Component {
     const {searchQuery} = this.state;
 
     return (
-      <div>
+      <div className="app">
         <SearchBar handleQuery={this.handleQuery} />
         <ImageGallery searchQuery={searchQuery}/>
        

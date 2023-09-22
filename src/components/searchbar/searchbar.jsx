@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import css from './searchBar.modules.css';
+import css from './searchBar.module.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { throttle } from 'lodash';
@@ -31,14 +31,14 @@ export default class SearchBar extends Component {
 
   render() {
     return (
-      <header className="header">
-        <form className="SearchForm" onSubmit={e => this.handleSubmit(e)}>
-          <button type="submit" className="SearchForm-button">
-            <span className="SearchForm-button-label">Search</span>
+      <header className={css.header}>
+        <form className={css.searchForm} onSubmit={e => this.handleSubmit(e)}>
+          <button type="submit" className={css.searchForm_button}>
+            <span className={css.searchForm_button_label}>Search</span>
           </button>
 
           <input
-            className="SearchForm-input"
+            className={css.searchForm_input}
             type="text"
             autoComplete="off"
             autoFocus

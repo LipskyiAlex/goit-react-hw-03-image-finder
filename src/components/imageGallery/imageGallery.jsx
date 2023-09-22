@@ -3,7 +3,10 @@ import css from './imageGallery.modules.css';
 import imageAPI from '../utilites/imagesApi';
 import ImageGalleryItem from '../imageGalleryItem/imageGalleryItem';
 import Button from '../button/button';
-import { Audio } from  'react-loader-spinner'
+import { CirclesWithBar } from  'react-loader-spinner'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default class ImageGallery extends Component {
   state = {
@@ -32,6 +35,7 @@ export default class ImageGallery extends Component {
   loadMorePages = () => {
     const { pageCounter, totalPages } = this.state;
 
+  
     if (totalPages > pageCounter) {
       this.setState(
         prevState => {
@@ -58,7 +62,7 @@ export default class ImageGallery extends Component {
       .catch(error => {
 
         this.setState({status:'rejected'})
-        console.log(error.message)    // Добавить уведомление с ошибкой
+        toast(error.message); 
 
       } );
   };
@@ -79,7 +83,7 @@ export default class ImageGallery extends Component {
           ))}
         </ul>
         <Button loadMorePages={this.loadMorePages} />
-        {status==="pending"&& <Audio />}
+        {status==="pending"&& <CirclesWithBar />}
       </div>
     ) : null;
   }

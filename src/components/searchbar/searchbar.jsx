@@ -1,26 +1,34 @@
 import React, { Component } from 'react';
 import css from './searchBar.modules.css';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { throttle } from 'lodash';
 
 export default class SearchBar extends Component {
   state = {
-    searchQuery: '',
+    searchQuery: ''
   };
 
   handleInput(e) {
     this.setState({ searchQuery: e.target.value });
   }
 
-  handleSubmit(e) {
+
+    handleSubmit = throttle((e) =>  {
     e.preventDefault();
     const { searchQuery } = this.state;
 
     if (searchQuery.trim() === '') {
-      return "Search query can't be empty!"; //! ADD react notify! import {toast} from 'react-toastify'; toast("message")
+  
+      toast("Search query can't be empty!");
+
+      return;
     }
     this.props.handleQuery(searchQuery.toLowerCase().trim());
     this.setState({ searchQuery: '' });
-  }
+  },300);
+
+
   render() {
     return (
       <header className="header">
@@ -39,7 +47,19 @@ export default class SearchBar extends Component {
             onChange={e => this.handleInput(e)}
           />
         </form>
-  
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          limit={2}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </header>
     );
   }

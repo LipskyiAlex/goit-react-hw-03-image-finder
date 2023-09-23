@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import css from './searchBar.module.css';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { throttle } from 'lodash';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {FcGoogle} from 'react-icons/fc';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default class SearchBar extends Component {
   state = {
-    searchQuery: ''
+    searchQuery: '',
+  
   };
-
   handleInput(e) {
     this.setState({ searchQuery: e.target.value });
   }
-
-
-    handleSubmit = throttle((e) =>  {
+  handleSubmit = throttle((e) =>  {
     e.preventDefault();
-    const { searchQuery } = this.state;
+    const { searchQuery} = this.state;
 
     if (searchQuery.trim() === '') {
   
@@ -28,7 +27,7 @@ export default class SearchBar extends Component {
     this.props.handleQuery(searchQuery.toLowerCase().trim());
     this.setState({ searchQuery: '' });
   },300);
-
+    
 
   render() {
     return (

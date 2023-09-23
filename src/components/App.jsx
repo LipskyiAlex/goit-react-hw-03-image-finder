@@ -19,9 +19,9 @@ export default class App extends Component {
     status: 'idle',
   };
 
-  componentDidUpdate = (prevProps,prevState) => {
-    const { query, pageCounter} = this.state;
-    const {query: prevQuery, pageCounter: prevPageCounter} = prevState;
+  componentDidUpdate = (prevProps, prevState) => {
+    const { query, pageCounter } = this.state;
+    const { query: prevQuery, pageCounter: prevPageCounter } = prevState;
 
     if (query !== prevQuery || pageCounter !== prevPageCounter) {
       this.setState({ status: 'pending' }, () => {
@@ -48,45 +48,90 @@ export default class App extends Component {
   loadMorePages = () => {
     const { pageCounter, totalPages } = this.state;
     if (totalPages > pageCounter) {
-      this.setState(prevState => ({
-        pageCounter: prevState.pageCounter + 1,
-        status: 'pending',
-      }) ,() => {
-             
-           if(this.state.pageCounter===this.state.totalPages) {
- 
+      this.setState(
+        prevState => ({
+          pageCounter: prevState.pageCounter + 1,
+          status: 'pending',
+        }),
+        () => {
+          if (this.state.pageCounter === this.state.totalPages) {
             toast("This is all we've found!");
-           }
-
-      });
+          }
+        }
+      );
     }
   };
 
   render() {
-    const { query, hits, status,pageCounter,totalPages } = this.state;
+    const { query, hits, status, pageCounter, totalPages } = this.state;
 
-    return (
-      <div className={css.app}>
-        <SearchBar handleQuery={this.handleQuery} />
-        <ImageGallery query={query} hits={hits} />
-        {status === 'pending' && <Loader />}
-          {pageCounter!==totalPages ? <Button loadMorePages={this.loadMorePages}/> : null} 
-        <ToastContainer
-          position="top-center"
-          autoClose={3000}
-          limit={1}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
-        <Loader
-        />
-      </div>
-    );
+    if ((status === 'idle')) {
+      return (
+        <div className={css.app}>
+          <SearchBar handleQuery={this.handleQuery} />
+        </div>
+      );
+    }
+
+    if ((status  ==='pending')) {
+      return (
+        <div className={css.app}>
+          <SearchBar handleQuery={this.handleQuery} />
+          <ImageGallery query={query} hits={hits} />
+          <Loader />
+          {pageCounter !== totalPages ? (
+            <Button loadMorePages={this.loadMorePages} />
+          ) : null}
+
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            limit={1}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
+        </div>
+      );
+    }
+
+    if ((status === 'resolved')) {
+      return (
+        <div className={css.app}>
+          <SearchBar handleQuery={this.handleQuery} />
+          <ImageGallery query={query} hits={hits} />
+          {pageCounter !== totalPages ? (
+            <Button loadMorePages={this.loadMorePages} />
+          ) : null}
+        </div>
+      );
+    }
+    if ((status === 'rejected')) {
+      return (
+        <div className={css.app}>
+          <SearchBar handleQuery={this.handleQuery} />
+          <h1>Something went wrong</h1>
+
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            limit={1}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
+        </div>
+      );
+    }
   }
 }
